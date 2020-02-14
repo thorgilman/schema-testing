@@ -56,8 +56,9 @@ lib/dokka.jar
 
 # IntelliJ
 /out/
-/cordapp/out/
-/cordapp-contracts-states/out/
+/workflows/out/
+/contracts/out/
+clients/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -72,3 +73,6 @@ crashlytics-build.properties
 
 # docs related
 docs/virtualenv/
+
+# if you use the installQuasar task
+lib
