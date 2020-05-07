@@ -69,6 +69,7 @@ public class IssueFlow {
         @Suspendable
         @Override
         public SignedTransaction call() throws FlowException {
+
             class SignTxFlow extends SignTransactionFlow {
                 private SignTxFlow(FlowSession otherPartySession) {
                     super(otherPartySession);

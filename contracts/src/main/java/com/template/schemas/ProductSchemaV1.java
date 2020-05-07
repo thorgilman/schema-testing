@@ -16,28 +16,51 @@ public class ProductSchemaV1 extends MappedSchema {
 
 
     public ProductSchemaV1() {
-        super(ProductSchema.class, 1, ImmutableList.of(PersistentProductState.class));
+        super(ProductSchema.class, 1, ImmutableList.of(PersistentProductState.class, PersistentProduce.class));
     }
 
-    @Entity
-    @Table(name="productState")
+//    @Entity
+//    @Table(name="product")
+//    public static class PersistentProductState2 extends PersistentState {
+//        @Column(name = "linear_id") @Type(type = "uuid-char") private final UUID linearId;
+//        @Column(name = "party") private final Party party;
+//
+//        @OneToOne(cascade = CascadeType.PERSIST)
+////        @JoinColumns({
+////            @JoinColumn(name = "productState_output_index", referencedColumnName = "output_index"),
+////            @JoinColumn(name = "productState_transaction_id", referencedColumnName = "transaction_id")
+////        })
+//        private final PersistentBeef state;
+//
+//        public PersistentProductState2(UUID linearId, Party party, PersistentBeef state) {
+//            this.linearId = linearId;
+//            this.party = party;
+//            this.state = state;
+//        }
+//    }
+
+    @Entity(name="productProduce")
+    @Table(name="product")
     public static class PersistentProductState extends PersistentState {
         @Column(name = "linear_id") @Type(type = "uuid-char") private final UUID linearId;
         @Column(name = "party") private final Party party;
 
-        @OneToMany(cascade = CascadeType.PERSIST)
-        @JoinColumns({
-                @JoinColumn(name = "productState_output_index", referencedColumnName = "output_index"),
-                @JoinColumn(name = "productState_transaction_id", referencedColumnName = "transaction_id")
-        })
-        private final PersistentProduce productState;
+        @OneToOne(cascade = CascadeType.PERSIST)
+//        @JoinColumns({
+//            @JoinColumn(name = "productState_output_index", referencedColumnName = "output_index"),
+//            @JoinColumn(name = "productState_transaction_id", referencedColumnName = "transaction_id")
+//        })
+        private final PersistentProduce state;
 
-        public PersistentProductState(UUID linearId, Party party, PersistentProduce productState) {
+        public PersistentProductState(UUID linearId, Party party, PersistentProduce state) {
             this.linearId = linearId;
             this.party = party;
-            this.productState = productState;
+            this.state = state;
         }
     }
+
+
+
 
 
 
@@ -50,8 +73,8 @@ public class ProductSchemaV1 extends MappedSchema {
         @Column(name = "name") private final String name;
         @Column(name = "color") private final String color;
 
-        @ManyToOne(targetEntity = PersistentProductState.class)
-        private final PersistentProductState productState;
+        @OneToOne(targetEntity = PersistentProductState.class)
+        private final ProductState productState;
 
         public PersistentProduce(String name, String color) {
             this.Id = UUID.randomUUID();
@@ -59,8 +82,28 @@ public class ProductSchemaV1 extends MappedSchema {
             this.color = color;
             this.productState = null; // TODO: ?
         }
-
     }
+
+
+//    @Entity
+//    @CordaSerializable
+//    @Table(name = "beef")
+//    public static class PersistentBeef {
+//
+//        @Id private final UUID Id;
+//        @Column(name = "type") private final String type;
+//        @Column(name = "weight") private final String weight;
+//
+//        @OneToOne(targetEntity = PersistentProductState2.class)
+//        private final ProductState productState;
+//
+//        public PersistentBeef(String type, String weight) {
+//            this.Id = UUID.randomUUID();
+//            this.type = type;
+//            this.weight = weight;
+//            this.productState = null; // TODO: ?
+//        }
+//    }
 
 
 }
